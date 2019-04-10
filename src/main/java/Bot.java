@@ -31,7 +31,8 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage message = new SendMessage();
         setButtons(message);
         //SendPhoto photo = new SendPhoto();
-        if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
+        if (update.hasMessage() && update.getMessage().getText().equals("/start")
+                || update.getMessage().getText().equals("From the beginning") ) {
             i = 0;
             message.setChatId(update.getMessage().getChatId());
             message.setText(messages.get(i).getLink());
@@ -77,8 +78,14 @@ public class Bot extends TelegramLongPollingBot {
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("Next news"));
 
+        // Вторая строчка клавиатуры
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add(new KeyboardButton("From the beginning"));
+
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
 
         // и устанваливаем этот список клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
