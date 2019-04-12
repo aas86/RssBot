@@ -12,6 +12,7 @@ public class BotThread implements Runnable {
     private static Integer PROXY_PORT = 21345;
     private LinkedList<Message> messages = new LinkedList<>();
 
+
     public BotThread(LinkedList<Message> messages) {
         this.messages = messages;
     }

@@ -17,31 +17,33 @@ import java.util.List;
  */
 public class Bot extends TelegramLongPollingBot {
     private LinkedList<Message> messages;
+    private boolean isListChanged;
+    private int i = 0;
+    //private LinkedList<Message> tempList;
 
     protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
         super(botOptions);
         this.messages = messages;
     }
 
-    private int i = 0;
 
     @Override
     public void onUpdateReceived(Update update) {
-        LinkedList<Message> tempList = new LinkedList<>(messages);
-
         SendMessage message = new SendMessage();
+
         setButtons(message);
+
         //SendPhoto photo = new SendPhoto();
         if (update.hasMessage() && update.getMessage().getText().equals("/start")
                 || update.getMessage().getText().equals("From the beginning")) {
             i = 0;
             message.setChatId(update.getMessage().getChatId());
-            message.setText(tempList.get(i).getLink());
+            message.setText(/*tempList*/messages.get(i).getLink());
 
         } else if (update.hasMessage() && update.getMessage().getText().equals("Next news")) {
             i++;
             message.setChatId(update.getMessage().getChatId());
-            message.setText(tempList.get(i).getLink());
+            message.setText(/*tempList*/messages.get(i).getLink());
            /* photo.setChatId(update.getMessage().getChatId());
             photo.setPhoto(messages.get(i).getImg());*/
         }
@@ -80,6 +82,7 @@ public class Bot extends TelegramLongPollingBot {
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
+
         keyboardSecondRow.add(new KeyboardButton("From the beginning"));
 
         // Добавляем все строчки клавиатуры в список
@@ -89,4 +92,5 @@ public class Bot extends TelegramLongPollingBot {
         // и устанваливаем этот список клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
+
 }

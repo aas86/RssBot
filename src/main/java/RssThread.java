@@ -17,9 +17,13 @@ import java.util.List;
  */
 public class RssThread implements Runnable {
     private LinkedList<Message> messages = new LinkedList<>();
+    private LinkedList<Message> tempList;
+
+
 
     public RssThread(LinkedList<Message> messages) {
         this.messages = messages;
+        this.tempList = new LinkedList<>();
     }
 
     @Override
@@ -35,6 +39,7 @@ public class RssThread implements Runnable {
                 // указывается, что SyndFeedInput читает фид синдикации из входного потока на основе символов URL-адреса,
                 // указывающего на фид.
                 SyndFeed feed = input.build(new XmlReader(feedSource));
+                System.out.println("Поток RssThread обновил ленту с сайта lenta.ru");
                 List entries = feed.getEntries();
                 Iterator entriesIterator = entries.iterator();
                 int j = 0;
@@ -58,7 +63,13 @@ public class RssThread implements Runnable {
                         messages.add(j - 1, message);
                     }
                 }
-                Thread.sleep(15000); // спать потоку обновления ленты RSS 1,5 минуты
+                if (tempList.size() == 0) {
+                    tempList = new LinkedList<>(messages);
+                } else if (!tempList.getFirst().getTitle().equals(messages.getFirst().getTitle())) {
+                    tempList = messages;
+                    System.out.println("Добавились новые фиды!!!!");
+                }
+                Thread.sleep(600000); // спать потоку обновления ленты RSS 10 минут
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
