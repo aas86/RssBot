@@ -18,6 +18,7 @@ import java.util.List;
 public class RssThread implements Runnable {
     private LinkedList<Message> messages = new LinkedList<>();
     private LinkedList<Message> tempList;
+    public static Boolean listChanged = Boolean.FALSE;
 
 
 
@@ -63,13 +64,16 @@ public class RssThread implements Runnable {
                         messages.add(j - 1, message);
                     }
                 }
+
                 if (tempList.size() == 0) {
                     tempList = new LinkedList<>(messages);
                 } else if (!tempList.getFirst().getTitle().equals(messages.getFirst().getTitle())) {
                     tempList = messages;
                     System.out.println("Добавились новые фиды!!!!");
+                    listChanged = true;
+
                 }
-                Thread.sleep(600000); // спать потоку обновления ленты RSS 10 минут
+                Thread.sleep(/*600000*/10000); // спать потоку обновления ленты RSS 10 минут
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -82,4 +86,6 @@ public class RssThread implements Runnable {
         }
 
     }
+
+
 }

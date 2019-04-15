@@ -1,7 +1,6 @@
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -17,13 +16,14 @@ import java.util.List;
  */
 public class Bot extends TelegramLongPollingBot {
     private LinkedList<Message> messages;
-    private boolean isListChanged;
+    private Boolean listChanged = false;
     private int i = 0;
-    //private LinkedList<Message> tempList;
+    private SendMessage message = new SendMessage();
 
     protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
         super(botOptions);
         this.messages = messages;
+       // setButtons(this.message, false);
     }
 
 
@@ -31,11 +31,11 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         SendMessage message = new SendMessage();
 
-        setButtons(message);
+        setButtons(message, listChanged);
 
-        //SendPhoto photo = new SendPhoto();
         if (update.hasMessage() && update.getMessage().getText().equals("/start")
-                || update.getMessage().getText().equals("From the beginning")) {
+                || update.getMessage().getText().equals("From the beginning")
+                || update.getMessage().getText().equals("From the beginning *")) {
             i = 0;
             message.setChatId(update.getMessage().getChatId());
             message.setText(/*tempList*/messages.get(i).getLink());
@@ -64,7 +64,15 @@ public class Bot extends TelegramLongPollingBot {
         return "672951422:AAFGUpS0k3MBJAgSdBRwPqBa7p_0qbRZojc";
     }
 
-    private synchronized void setButtons(SendMessage sendMessage) {
+    public Boolean getListChanged() {
+        return listChanged;
+    }
+
+    public void setListChanged(Boolean listChanged) {
+        this.listChanged = listChanged;
+    }
+
+    private synchronized void setButtons(SendMessage sendMessage, Boolean listChanged) {
         // Создаем клавиуатуру
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -81,16 +89,29 @@ public class Bot extends TelegramLongPollingBot {
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
+        System.out.println("listChanged " + listChanged);
         // Добавляем кнопки во вторую строчку клавиатуры
-
-        keyboardSecondRow.add(new KeyboardButton("From the beginning"));
-
+        if (!listChanged) {
+            keyboardSecondRow.add(new KeyboardButton("From the beginning"));
+        } else{
+            keyboardSecondRow.add(new KeyboardButton("From the beginning *"));
+        }
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
 
         // и устанваливаем этот список клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
+       /* try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    public void changeButtons() {
+        System.out.println("Метод добавления *!");
+        this.setButtons(message, true);
     }
 
 }
