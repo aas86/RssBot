@@ -3,15 +3,13 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.generics.BotSession;
 
 import java.util.LinkedList;
 
 //https://hidemyna.me/ru/proxy-list/?type=5#list The list of working proxy servers
 public class Main {
-    private static String PROXY_HOST = "45.76.187.188";
-    private static Integer PROXY_PORT = 21345;
+    private static String PROXY_HOST = "192.169.197.146";
+    private static Integer PROXY_PORT = 33631;
 
     public static void main(String[] args) {
         LinkedList<Message> messages = new LinkedList<>();
@@ -28,16 +26,17 @@ public class Main {
             botsApi.registerBot(myBot);
 
             // отдельный поток отслеживает изменился ли список фидов, если да, то он должен добавить звёздочку
-            Thread b = new Thread(() -> {
+            // поток проверяет флаг listChanged
+            Thread changeCheckerThread = new Thread(() -> {
                 while (true) {
                     if (RssThread.listChanged) {
-                        System.out.println("Изменился флаг isChanged => нужно добавить *");
+                        //System.out.println("Изменился флаг isChanged => нужно добавить *");
                         myBot.changeButtons();
                         RssThread.listChanged = false;
                     }
                 }
             });
-            b.start();
+            changeCheckerThread.start();
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

@@ -18,8 +18,7 @@ import java.util.List;
 public class RssThread implements Runnable {
     private LinkedList<Message> messages = new LinkedList<>();
     private LinkedList<Message> tempList;
-    public static Boolean listChanged = Boolean.FALSE;
-
+    public static Boolean listChanged = Boolean.FALSE; //флаг изменения текущего списка фидов
 
 
     public RssThread(LinkedList<Message> messages) {
@@ -40,7 +39,7 @@ public class RssThread implements Runnable {
                 // указывается, что SyndFeedInput читает фид синдикации из входного потока на основе символов URL-адреса,
                 // указывающего на фид.
                 SyndFeed feed = input.build(new XmlReader(feedSource));
-                System.out.println("Поток RssThread обновил ленту с сайта lenta.ru");
+                System.out.println("Поток RssThread обновил RSS ленту с сайта lenta.ru");
                 List entries = feed.getEntries();
                 Iterator entriesIterator = entries.iterator();
                 int j = 0;
@@ -68,12 +67,14 @@ public class RssThread implements Runnable {
                 if (tempList.size() == 0) {
                     tempList = new LinkedList<>(messages);
                 } else if (!tempList.getFirst().getTitle().equals(messages.getFirst().getTitle())) {
-                    tempList = messages;
                     System.out.println("Добавились новые фиды!!!!");
                     listChanged = true;
-
+                    for (int i = messages.size() - 1; i >= 0; i--) {
+                        tempList.addFirst(messages.get(i));
+                        tempList.removeLast();
+                    }
                 }
-                Thread.sleep(/*600000*/10000); // спать потоку обновления ленты RSS 10 минут
+                Thread.sleep(600000); // спать потоку обновления ленты RSS 10 минут
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -84,8 +85,5 @@ public class RssThread implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }

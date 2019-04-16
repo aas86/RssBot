@@ -23,29 +23,25 @@ public class Bot extends TelegramLongPollingBot {
     protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
         super(botOptions);
         this.messages = messages;
-       // setButtons(this.message, false);
+        setButtons(this.message, false);
     }
-
 
     @Override
     public void onUpdateReceived(Update update) {
-        SendMessage message = new SendMessage();
-
-        setButtons(message, listChanged);
-
         if (update.hasMessage() && update.getMessage().getText().equals("/start")
                 || update.getMessage().getText().equals("From the beginning")
                 || update.getMessage().getText().equals("From the beginning *")) {
             i = 0;
+            if (update.getMessage().getText().equals("From the beginning *")) {
+                setButtons(message, false);
+            }
             message.setChatId(update.getMessage().getChatId());
-            message.setText(/*tempList*/messages.get(i).getLink());
+            message.setText(messages.get(i).getLink());
 
         } else if (update.hasMessage() && update.getMessage().getText().equals("Next news")) {
             i++;
             message.setChatId(update.getMessage().getChatId());
-            message.setText(/*tempList*/messages.get(i).getLink());
-           /* photo.setChatId(update.getMessage().getChatId());
-            photo.setPhoto(messages.get(i).getImg());*/
+            message.setText(messages.get(i).getLink());
         }
         try {
             execute(message);
@@ -89,11 +85,11 @@ public class Bot extends TelegramLongPollingBot {
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
-        System.out.println("listChanged " + listChanged);
+        //System.out.println("listChanged " + listChanged);
         // Добавляем кнопки во вторую строчку клавиатуры
         if (!listChanged) {
             keyboardSecondRow.add(new KeyboardButton("From the beginning"));
-        } else{
+        } else {
             keyboardSecondRow.add(new KeyboardButton("From the beginning *"));
         }
         // Добавляем все строчки клавиатуры в список
@@ -102,16 +98,14 @@ public class Bot extends TelegramLongPollingBot {
 
         // и устанваливаем этот список клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
-       /* try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void changeButtons() {
-        System.out.println("Метод добавления *!");
         this.setButtons(message, true);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
-
 }
