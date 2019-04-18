@@ -43,7 +43,7 @@ public class RssThread implements Runnable {
                 List entries = feed.getEntries();
                 Iterator entriesIterator = entries.iterator();
                 int j = 0;
-                while (entriesIterator.hasNext() && j < 10) {
+                while (entriesIterator.hasNext() /*&& j < 10*/) {
                     j++;
                     Message message = new Message();
                     SyndEntry entrie = (SyndEntry) entriesIterator.next();
@@ -56,7 +56,7 @@ public class RssThread implements Runnable {
                         SyndEnclosureImpl entrie1 = (SyndEnclosureImpl) enclousersIterator.next();
                         message.setImg(entrie1.getUrl());
                     }
-                    if (messages.size() == 0 || messages.size() < 10) {
+                    if (messages.size() == 0 /*|| messages.size() < 10*/|| messages.size() < entries.size()) {
                         messages.add(message);
                     } else {
                         messages.remove(j - 1);

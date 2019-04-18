@@ -8,8 +8,8 @@ import java.util.LinkedList;
 
 //https://hidemyna.me/ru/proxy-list/?type=5#list The list of working proxy servers
 public class Main {
-    private static String PROXY_HOST = "192.169.197.146";
-    private static Integer PROXY_PORT = 33631;
+    private static String PROXY_HOST = "132.148.142.205";
+    private static Integer PROXY_PORT = 42571;
 
     public static void main(String[] args) {
         LinkedList<Message> messages = new LinkedList<>();

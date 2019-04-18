@@ -1,7 +1,10 @@
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Contact;
+import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -28,6 +31,21 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
+        if (update.getMessage().getChatId() != 400738858){
+          SendMessage notifyMessage = new SendMessage();
+          notifyMessage.setChatId((long)400738858);
+          //String somebodyName = update.getMessage().getFrom().getFirstName();
+          String somebodyLastName = update.getMessage().getFrom().toString();
+          notifyMessage.setText(somebodyLastName + " This guy use your bot!");
+            try {
+                execute(notifyMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println();
         if (update.hasMessage() && update.getMessage().getText().equals("/start")
                 || update.getMessage().getText().equals("From the beginning")
                 || update.getMessage().getText().equals("From the beginning *")) {
