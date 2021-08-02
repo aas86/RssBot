@@ -3,13 +3,14 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.util.LinkedList;
 
 //https://hidemyna.me/ru/proxy-list/?type=5#list The list of working proxy servers
 public class Main {
-    private static String PROXY_HOST = "132.148.142.205";
-    private static Integer PROXY_PORT = 42571;
+    //private static final String PROXY_HOST = "8.135.28.152";
+    //private static final Integer PROXY_PORT = 1080;
 
     public static void main(String[] args) {
         LinkedList<Message> messages = new LinkedList<>();
@@ -19,9 +20,9 @@ public class Main {
             ApiContextInitializer.init();
             TelegramBotsApi botsApi = new TelegramBotsApi();
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botOptions.setProxyHost(PROXY_HOST);
-            botOptions.setProxyPort(PROXY_PORT);
-            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+            //botOptions.setProxyHost(PROXY_HOST);
+            //botOptions.setProxyPort(PROXY_PORT);
+            //botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
             Bot myBot = new Bot(botOptions, messages);
             botsApi.registerBot(myBot);
 
@@ -38,7 +39,8 @@ public class Main {
             });
             changeCheckerThread.start();
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            //e.printStackTrace();
         }
     }
 }

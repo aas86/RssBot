@@ -81,7 +81,8 @@ public class RssThread implements Runnable {
         } catch (FeedException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            //e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
