@@ -3,6 +3,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.util.LinkedList;
@@ -24,7 +25,9 @@ public class Main {
             //botOptions.setProxyPort(PROXY_PORT);
             //botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
             Bot myBot = new Bot(botOptions, messages);
-            botsApi.registerBot(myBot);
+            BotSession botSession = botsApi.registerBot(myBot);
+            System.out.println("Is Runing" + botSession.isRunning());
+            //botsApi.registerBot(myBot);
 
             // отдельный поток отслеживает изменился ли список фидов, если да, то он должен добавить звёздочку
             // поток проверяет флаг listChanged
