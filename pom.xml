@@ -9,7 +9,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>main.java.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
