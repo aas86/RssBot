@@ -16,5 +16,15 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="YOUR-PROJECT-NAME-mvn-repo" />
+      <option name="name" value="YOUR-PROJECT-NAME-mvn-repo" />
+      <option name="url" value="https://github.com/pengrad/java-telegram-bot-api/mvn-repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="my-internal-site" />
+      <option name="name" value="my-internal-site" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
   </component>
 </project>

@@ -1,6 +1,3 @@
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
@@ -18,14 +15,16 @@ public class Main {
         Thread rss = new Thread(new RssThread(messages));
         rss.start();
         try {
-            ApiContextInitializer.init();
-            TelegramBotsApi botsApi = new TelegramBotsApi();
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            //ApiContextInitializer.init();
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            //DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            Bot myBot = new Bot();
+            BotSession botSession = botsApi.registerBot(myBot);
             //botOptions.setProxyHost(PROXY_HOST);
             //botOptions.setProxyPort(PROXY_PORT);
             //botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
-            Bot myBot = new Bot(botOptions, messages);
-            BotSession botSession = botsApi.registerBot(myBot);
+            //Bot myBot = new Bot(botOptions, messages);
+            //BotSession botSession = botsApi.registerBot(myBot);
             System.out.println("Is Runing" + botSession.isRunning());
             //botsApi.registerBot(myBot);
 
@@ -43,6 +42,7 @@ public class Main {
             changeCheckerThread.start();
         } catch (TelegramApiException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             //e.printStackTrace();
         }
     }

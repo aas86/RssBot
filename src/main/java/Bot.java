@@ -23,10 +23,14 @@ public class Bot extends TelegramLongPollingBot {
     private int i = 0;
     private SendMessage message = new SendMessage();
 
-    protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
+   /* protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
         super(botOptions);
         this.messages = messages;
         setButtons(this.message, false);
+    }*/
+
+    protected Bot() {
+
     }
 
     @Override
@@ -34,7 +38,7 @@ public class Bot extends TelegramLongPollingBot {
 
         if (update.getMessage().getChatId() != 400738858){
           SendMessage notifyMessage = new SendMessage();
-          notifyMessage.setChatId((long)400738858);
+          notifyMessage.setChatId("400738858");
           //String somebodyName = update.getMessage().getFrom().getFirstName();
           String somebodyLastName = update.getMessage().getFrom().toString();
           notifyMessage.setText(somebodyLastName + " This guy use your bot!");
@@ -53,12 +57,12 @@ public class Bot extends TelegramLongPollingBot {
             if (update.getMessage().getText().equals("From the beginning *")) {
                 setButtons(message, false);
             }
-            message.setChatId(update.getMessage().getChatId());
+            message.setChatId(update.getMessage().getChatId().toString());
             message.setText(messages.get(i).getLink());
 
         } else if (update.hasMessage() && update.getMessage().getText().equals("Next news")) {
             i++;
-            message.setChatId(update.getMessage().getChatId());
+            message.setChatId(update.getMessage().getChatId().toString());
             message.setText(messages.get(i).getLink());
         }
         try {
