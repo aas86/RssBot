@@ -23,15 +23,15 @@ public class Bot extends TelegramLongPollingBot {
     private int i = 0;
     private SendMessage message = new SendMessage();
 
-   /* protected Bot(DefaultBotOptions botOptions, LinkedList<Message> messages) {
-        super(botOptions);
+    protected Bot(/*DefaultBotOptions botOptions,*/ LinkedList<Message> messages) {
+        super(/*botOptions*/);
         this.messages = messages;
         setButtons(this.message, false);
-    }*/
-
-    protected Bot() {
-
     }
+
+    /*protected Bot() {
+
+    }*/
 
     @Override
     public void onUpdateReceived(Update update) {

@@ -18,7 +18,7 @@ public class Main {
             //ApiContextInitializer.init();
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             //DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            Bot myBot = new Bot();
+            Bot myBot = new Bot(messages);
             BotSession botSession = botsApi.registerBot(myBot);
             //botOptions.setProxyHost(PROXY_HOST);
             //botOptions.setProxyPort(PROXY_PORT);
