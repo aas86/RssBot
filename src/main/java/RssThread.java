@@ -30,8 +30,8 @@ public class RssThread implements Runnable {
     public void run() {
         try {
             while (true) {
-                //URL feedSource = new URL("https://lenta.ru/rss/news ");
-                URL feedSource = new URL("https://pikabu.ru/xmlfeeds.php?cmd=popular ");
+                URL feedSource = new URL("https://lenta.ru/rss/news ");
+                //URL feedSource = new URL("https://pikabu.ru/xmlfeeds.php?cmd=popular ");
 
                 // создает экземпляр SyndFeedInput, который будет работать с любыми типами каналов
                 // распространения (версии RSS и Atom).
@@ -77,15 +77,11 @@ public class RssThread implements Runnable {
                 }
                 Thread.sleep(600000); // спать потоку обновления ленты RSS 10 минут
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (FeedException e) {
+        } catch (MalformedURLException | FeedException | InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             //e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
