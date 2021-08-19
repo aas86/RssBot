@@ -30,7 +30,8 @@ public class RssThread implements Runnable {
     public void run() {
         try {
             while (true) {
-                URL feedSource = new URL("https://lenta.ru/rss/news ");
+                //URL feedSource = new URL("https://lenta.ru/rss/news ");
+                URL feedSource = new URL("https://pikabu.ru/xmlfeeds.php?cmd=popular ");
 
                 // создает экземпляр SyndFeedInput, который будет работать с любыми типами каналов
                 // распространения (версии RSS и Atom).

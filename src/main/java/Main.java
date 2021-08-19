@@ -25,7 +25,7 @@ public class Main {
             //botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
             //Bot myBot = new Bot(botOptions, messages);
             //BotSession botSession = botsApi.registerBot(myBot);
-            System.out.println("Is Runing" + botSession.isRunning());
+            System.out.println("Is Runing " + botSession.isRunning());
             //botsApi.registerBot(myBot);
 
             // отдельный поток отслеживает изменился ли список фидов, если да, то он должен добавить звёздочку
