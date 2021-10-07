@@ -76,9 +76,11 @@ public class RssThread implements Runnable {
             }
         } catch (MalformedURLException | FeedException | InterruptedException e) {
             e.printStackTrace();
+            System.out.println(e.toString());
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+            System.out.println(e.toString());
         }
     }
 }

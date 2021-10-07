@@ -30,7 +30,7 @@ public class Main {
         } catch (TelegramApiException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-            //e.printStackTrace();
+            System.out.println(e.toString());
         }
     }
 }
