@@ -12,9 +12,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by 437-5 on 11.04.2019.
- */
 public class RssThread implements Runnable {
     private LinkedList<Message> messages = new LinkedList<>();
     private LinkedList<Message> tempList;
@@ -30,8 +27,7 @@ public class RssThread implements Runnable {
     public void run() {
         try {
             while (true) {
-                URL feedSource = new URL("https://lenta.ru/rss/news ");
-                //URL feedSource = new URL("https://pikabu.ru/xmlfeeds.php?cmd=popular ");
+                URL feedSource = new URL("https://lenta.ru/rss/news");
 
                 // создает экземпляр SyndFeedInput, который будет работать с любыми типами каналов
                 // распространения (версии RSS и Atom).
@@ -39,7 +35,8 @@ public class RssThread implements Runnable {
 
                 // указывается, что SyndFeedInput читает фид синдикации из входного потока на основе символов URL-адреса,
                 // указывающего на фид.
-                SyndFeed feed = input.build(new XmlReader(feedSource));
+                XmlReader readerXML = new XmlReader(feedSource);
+                SyndFeed feed = input.build(readerXML);
                 System.out.println("Поток RssThread обновил RSS ленту с сайта lenta.ru");
                 List entries = feed.getEntries();
                 Iterator entriesIterator = entries.iterator();
@@ -75,13 +72,13 @@ public class RssThread implements Runnable {
                         tempList.removeLast();
                     }
                 }
-                Thread.sleep(600000); // спать потоку обновления ленты RSS 10 минут
+                Thread.sleep(9000); // спать потоку обновления ленты RSS 10 минут
             }
         } catch (MalformedURLException | FeedException | InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
